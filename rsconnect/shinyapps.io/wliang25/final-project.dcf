@@ -1,0 +1,13 @@
+name: final-project
+title: final-project
+username:
+account: wliang25
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 777884
+bundleId: 1928395
+url: https://wliang25.shinyapps.io/final-project/
+when: 1552207892.5821
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: part1.ipynb
