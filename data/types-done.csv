@@ -1,0 +1,117 @@
+Response Types,Description
+1RED 1 Unit,"Response which involved 1 engine, ladder, or aid unit. An engine is a response vehicle of the fire department that pumps water. A ladder is a type of response unit with a very large hydraulically operated ladder that extends from the truck and is not removable. Aid unit is a response vehicle that looks like an ambulance staffed with Firefighter/EMTs. "
+3RED - 1 +1 + 1,"Response which involved 1 engine, 1 ladder, 1 battalion chief"
+4RED - 2 + 1 + 1,"Response which involved 2 engines, 1 ladder, 1 battalion chief "
+Activated CO Detector,
+AFA4 - Auto Alarm 2 + 1 + 1,"Automatic fire alarm which involved 2 engines, 1 ladder, 1 battalion chief "
+AFAH - Auto Alarm Hazmat,Automatic fire alarm which required hazmat team
+Aid Response,medical response requiring EMTs (any Seattle firefighters) who are Basic Life Support (BLS) qualified. Aid units are ambulances staffed with Firefighter/EMTs. 
+Aid Response Freeway,Aid response on a freeway 
+Aid Response Yellow,Aid response to a possible bomb threat
+Aircraft Crash,
+Aircraft Standby,Aircraft as standby
+Alarm Bell,
+ANTIB - Antibiotic Delivery,
+Assault w/Weap 7 per Rule,"Assault with a weapon, 7 person rule -- minimum of 7 persons required to run the call. "
+Assault w/Weapons 14,"Assault with a weapon, 14 person rule -- minimum of 14 persons required to run the call"
+Auto Fire Alarm,Response to an automatic fire alarm 
+Automatic Fire Alarm False,
+Automatic Fire Alarm Resd,"Response to an automatic fire alarm, involving a real fire"
+Automatic Medical Alarm,"Response to an automatic fire alarm, requiring medical assitance "
+Bark Fire,
+Brush Fire,
+Brush Fire Freeway,
+Brush Fire W/Exp.,
+Car Fire,
+Car Fire Freeway,
+Car Fire W/Exp.,
+Chempack Engine,
+Chimney Fire,
+COMED Poss Patient,Carbon monixed exposed possible patient 
+Dumpster Fire,
+Dumpster Fire W/Exp.,
+Electrical Problem,
+EVENT - Special Event,
+Explosion Major,Response to a major explosion 
+Fast Back Up,"Response which required back up, additional assistance "
+Fire In A Highrise,
+Fire in Building,
+Fire in Single Family Res,
+Fire Response Freeway,
+FIREWATCH,
+Food On The Stove,
+Food On The Stove Out,
+Fuel Spill,
+Furnace Problem,
+Garage Fire,
+Hang-Up- Aid,
+Hang-Up- Fire,
+HAZADV - Hazmat Advised,Response where a hazmat is advicsed 
+Hazardous Mat- Spill-Leak,
+HazMat MCI,HazMat Multiple Casualty Incident. Involves many patients.
+HazMat Reduced,HazMat reduced response 
+Help the Fire Fighter,
+Illegal Burn,
+Investigate Out Of Service,Investigating out of service item such as transformer explosion/power 
+LINK - Link Control Center,
+Marine Fire On Shore,
+Marine Fire On Water,
+Marine Recon Response,
+Marine Service Response,
+Mayday Incident,Life-threatening emergency
+Medic Resp Infectious,Medical response to something infectious 
+Medic Response,Medical response 
+Medic Response- 6 per Rule,"Severely injured patient, response involving 2 engines or ladders, 1 medic unit"
+Medic Response- 7 per Rule,"CR in progress or respiratory/cardiac arrest, response involving 2 engines or ladders, 1 medic unit"
+Medic Response Freeway,
+Multiple Casualty Incident,
+Multiple Medic Resp 14 Per,"Multiple medic responses, 14 person rule -- minimum of 14 persons required to run the call"
+Mutual Aid- Aircraft,"Response that refers to lending assitance across jurisdictional borders, involving an aircraft"
+Mutual Aid- Engine,"Response that refers to lending assitance across jurisdictional borders, involving an engine"
+Mutual Aid- Marine,"Response that refers to lending assitance across jurisdictional borders, involving marine fire rescue boat"
+Mutual Aid- Medic,"Response that refers to lending assitance across jurisdictional borders, involving a medic unit"
+Mutual Aid- Task Force,"Response that refers to lending assitance across jurisdictional borders, involving task force "
+MVI - Motor Vehicle Incident,Motor Vehicle Incident
+MVI Freeway,Motor Vehicle Incident on freeway
+MVI Freeway Medic,Motor Vehicle Incident on freeway requiring medical assistance 
+MVI Medic,Motor Vehicle Incident requiring medical assistance 
+Natural Gas Leak,
+Natural Gas Leak Major,
+Natural Gas Odor,
+Rescue Automobile,Rescue in response to an automobile related incident
+Rescue Confined Space,
+Rescue Elevator,
+Rescue Extrication,"Rescue needing to extricate persons, remove them from a vehicle or other area that confined them"
+Rescue Heavy,Rescue requiring patient extrication. Often overturned vehicle incidents.
+Rescue Heavy Major,Rescue requiring heavy patient extrication. Often overturned vehicle incidents.
+Rescue Ice,Rescue in response to ice related incident 
+Rescue Lock In/Out,
+Rescue Rope,"Rope rescue response, usually due due to someone falling "
+Rescue Standby,Rescue unit as a standby 
+Rescue Trench,
+RMC Chief,Regional Medical Center Chief 
+Rubbish Fire,
+Scenes Of Violence 14,"Response to a scene of violence, 14 person rule -- minimum of 14 persons required to run the call"
+Scenes Of Violence 7,"Response to a scene of violence, 7 person rule -- minimum of 7 persons required to run the call"
+Scenes Of Violence MCI,Multiple Casualty Incident. Involves many patients.
+Shed Fire,
+Single Medic Unit,Response requiring a single medic unit 
+Spill- Non-Hazmat,Non-hazmat required spill 
+Tanker Fire,
+TEST - MIS TEST,Testing
+Testing Only Testing,Testing
+Tranformer Fire,
+Trans to AMR,Transfer to American Medical Response
+Unk Odor,Response to an odor
+Vault Fire (Electrical),
+Vessel Sinking On Shore,
+Vessel Sinking On Water,
+WAFA - Automatic Fire Alarm,"Response to an automatic fire alarm, involving a marine fire rescue unit "
+WAFA4 - Auto Alarm 2+1+1,"Response to an automatic fire alarm, involving a marine fire rescue unit, involving equivalent of  2 engines, 1 ladder, 1 battalion chief "
+Water Job Major,
+Water Job Minor,
+Water Rescue Recon Response,Marine fire rescue unit response to requesting recon 
+Water Rescue Response,Marine fire rescure response to an incident 
+Water Rescue Response Major,Marine fire rescure response to a major incident
+Water Rescue Standby,Marine fire rescue unit as standby 
+Wires Down,
