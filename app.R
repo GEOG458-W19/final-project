@@ -9,10 +9,12 @@ library(plotly)
 library(leaflet)
 library(shinythemes)
 library(sf)
+library(DT)
 
 source("./scripts/build_map.R")
 source("./scripts/hood_chart.R")
 source("./scripts/type_chart.R")
+types <- read.csv("./data/types-done.csv", stringsAsFactors = FALSE)
 
 # fire_stat_df <- read.csv("./data/Fire_Stations.csv", stringsAsFactors = FALSE)
 # colnames(fire_stat_df)[1] <- "lng"
@@ -22,7 +24,7 @@ source("./scripts/type_chart.R")
 # colnames(hospital_df)[2] <- "lat"
 # seattle_18 <- st_read("./data/2018_Fire_Calls_Seattle/2018_Fire_Calls_Seattle.shp")
 # seattle_17 <- st_read("./data/2017_Fire_Calls_Seattle/2017_Fire_Calls_Seattle.shp")
-
+# 
 # seattle <- st_read("../data/seattlefc/seattlefc.shp")
 # types_response <- seattle %>% group_by(Type) %>% summarize(count = n())
 
@@ -84,6 +86,13 @@ ui <- navbarPage(
           on police behavior: A multilevel analysis.\"", em("Journal of criminal justice"), "36, no. 1 (2008): 22-32.")
       )
     )
+  ),
+  
+  # Create a tab panel for metadata
+  tabPanel(
+    "Metadata",
+    titlePanel("Response Types"),
+    DT::dataTableOutput("table")
   ),
   
   # Create a tab panel for your map
@@ -179,6 +188,7 @@ server <- function(input, output) {
   output$type <- renderPlotly(
     return(type_chart(input$type_year))
   )
+  output$table <- DT::renderDataTable({types})
 }
 
 # Run the application 
