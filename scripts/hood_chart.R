@@ -12,15 +12,15 @@ hood_chart <- function(year) {
   if (is.element(18, year)) {
     seattle_18 <- seattle_18 %>% group_by(S_HOOD) %>% summarise(Count = n())
     colnames(seattle_18)[1] <- "Neighborhood"
-    p <- p + geom_point(seattle_18, mapping = aes(x = Neighborhood, y = Count, group = 1, colour = "2018")) +
-                geom_line(seattle_18, mapping = aes(x = Neighborhood, y = Count, group = 1, colour = "2018"))
+    p <- p + geom_bar(seattle_18, mapping = aes(x = Neighborhood, y = Count, fill = "2018"), 
+                      stat = "identity", position = "dodge") + guides(fill = guide_legend(title = "Year"))
   }
   
   if (is.element(17, year)){
     seattle_17 <- seattle_17 %>% group_by(S_HOOD) %>% summarise(Count = n())
     colnames(seattle_17)[1] <- "Neighborhood"
-    p <- p + geom_point(seattle_17, mapping = aes(x = Neighborhood, y = Count, group = 1, colour = "2017")) +
-                geom_line(seattle_17, mapping = aes(x = Neighborhood, y = Count, group = 1, colour = "2017"))
+    p <- p + geom_bar(seattle_17, mapping = aes(x = Neighborhood, y = Count, fill = "2017"), 
+                      stat = "identity", position = "dodge") + guides(fill = guide_legend(title = "Year"))
   }
 
   p <- ggplotly(p, tooltip = c('x', 'y')) %>%

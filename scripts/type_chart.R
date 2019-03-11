@@ -11,14 +11,14 @@ type_chart <- function(year) {
   # Determines which year of data set to display
   if (is.element(18, year)) {
     seattle_18 <- seattle_18 %>% group_by(Type) %>% summarise(Count = n())
-    p <- p + geom_point(seattle_18, mapping = aes(x = Type, y = Count, group = 1, colour = "2018")) +
-      geom_line(seattle_18, mapping = aes(x = Type, y = Count, group = 1, colour = "2018"))
+    p <- p + geom_bar(seattle_18, mapping = aes(x = Type, y = Count, fill = "2018"), 
+                      stat = "identity", position = "dodge") + guides(fill = guide_legend(title = "Year"))
   }
   
   if (is.element(17, year)){
     seattle_17 <- seattle_17 %>% group_by(Type) %>% summarise(Count = n())
-    p <- p + geom_point(seattle_17, mapping = aes(x = Type, y = Count, group = 1, colour = "2017")) +
-      geom_line(seattle_17, mapping = aes(x = Type, y = Count, group = 1, colour = "2017"))
+    p <- p + geom_bar(seattle_17, mapping = aes(x = Type, y = Count, fill = "2017"), 
+                      stat = "identity", position = "dodge") + guides(fill = guide_legend(title = "Year"))
   }
   
   p <- ggplotly(p, tooltip = c('x', 'y')) %>%
