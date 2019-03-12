@@ -26,3 +26,19 @@ type_chart <- function(year) {
            margin=list(b = 150, l = 100, t = 50))
   return(p)
 }
+
+##################statistical analysis#####################
+#total number of calls for each type
+type_calls <-seattle_18 %>% group_by(Type) %>% summarize(total_numb_calls=n()) %>% arrange(desc(total_numb_calls))
+#calculates average number of calls per call type. 
+average_numb_calls_type <- nrow(seattle_18)/(length(unique(seattle_18$Type)))
+#max number of calls per neighborhood
+max_calls_type <- type_calls[which.max(type_calls$total_numb_calls),]
+#min number of calls per neighborhood
+min_calls_type <-type_calls[which.min(type_calls$total_numb_calls),]
+#range
+range_calls_type <- max_calls_type$total_numb_calls - min_calls_type$total_numb_calls
+#median
+median_calls_type <- median(type_calls$total_numb_calls)
+#calculates top 10 call types with the most calls.
+top_10_call_types <- seattle_18 %>% group_by(Type) %>% summarize(total_numb_calls=n()) %>% arrange(desc(total_numb_calls)) %>% head(10) %>% select(Type, total_numb_calls)
