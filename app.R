@@ -216,9 +216,15 @@ server <- function(input, output) {
   output$type <- renderPlotly(
     return(type_chart(input$type_year))
   )
-  output$table <- DT::renderDataTable({types})
+  output$table <- DT::renderDataTable(
+    types, 
+    options = list(
+      autoWidth = TRUE, 
+      columnDefs = list(list(width = '100px')),
+      lengthMenu = c(10, 25, 50, 100, 116)
+      )
+  )
 }
 
 # Run the application 
 shinyApp(ui = ui, server = server)
-
