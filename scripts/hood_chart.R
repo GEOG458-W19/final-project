@@ -12,8 +12,24 @@ hood <- data.frame(hood_names, h17_count, h18_count) %>%
         mutate(increase_count = h18_count - h17_count) %>% 
         mutate(total_count = h18_count + h17_count) %>% 
         mutate(increase_perc = increase_count / total_count)
+# i_portion <- hood %>% filter(increase_perc > 0) %>% select(increase_count) %>% sum()
+# d_portion <- hood %>% filter(increase_perc < 0) %>% select(increase_count) %>% sum()
+i_val <- hood %>% filter(increase_perc > 0) %>% nrow()
+i_val <- round(i_val / sum(i_val) * 100, digits = 2)
+d_val <- hood %>% filter(increase_perc > 0) %>% nrow()
+d_val <- round(d_val / sum(d_val) * 100, digits = 2)
+hood <- hood %>% mutate(pie_increase = ifelse(increase_perc > 0, increase_perc * i_val, abs(increase_perc * d_val)))
 
-count <- c()
+test <- pie(hood$pie_increase, labels = hood$hood_names)
+
+count <- c((hood %>% filter(increase_perc > 0) %>% nrow()), (hood %>% filter(increase_perc < 0) %>% nrow()))
+increased <- c("Yes", "No")
+pct <- round(count / sum(count) * 100)
+lbls <- paste(increased, pct)
+lbls <- paste0(lbls, "%")
+pie <- pie(count, labels = lbls, main = "Neighborhoods that Increased in 911 Calls from 2017 to 2018")
+
+
 
 hood_chart <- function(year) {
   p <- ggplot() +
