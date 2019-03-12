@@ -14,6 +14,7 @@ library(DT)
 source("./scripts/build_map.R")
 source("./scripts/hood_chart.R")
 source("./scripts/type_chart.R")
+source("./scripts/build_demo.R")
 types <- read.csv("./data/types-done.csv", stringsAsFactors = FALSE)
 
 # fire_stat_df <- read.csv("./data/Fire_Stations.csv", stringsAsFactors = FALSE)
@@ -91,13 +92,13 @@ ui <- navbarPage(
   # Create a tab panel for metadata
   tabPanel(
     "Metadata",
-    titlePanel("Response Types"),
+    titlePanel("Response Types "),
     DT::dataTableOutput("table")
   ),
   
   # Create a tab panel for your map
   tabPanel(
-    "Map",
+    "Emergency Services Map",
     titlePanel("Location of Emergency Services"),
     # Create sidebar layout
     sidebarLayout(
@@ -126,6 +127,30 @@ ui <- navbarPage(
       # Main panel: display plotly map
       mainPanel(
         leafletOutput("map", width = "100%", height = 800)
+      )
+    )
+  ),
+  
+  # Create a tab panel for your map
+  tabPanel(
+    "Demographics Map",
+    titlePanel("Demographics of Seattle"),
+    # Create sidebar layout
+    sidebarLayout(
+      # Side panel for controls
+      sidebarPanel(
+        width = 3,
+        # Input to select variable to map
+        radioButtons("year",
+                     label = "Year of 911 Calls to Display",
+                     choices = list("2017" = 17, "2018" = 18),
+                     selected = 17
+        )
+      ),
+      
+      # Main panel: display plotly map
+      mainPanel(
+        leafletOutput("demo", width = "100%", height = 800)
       )
     )
   ),
@@ -181,6 +206,9 @@ ui <- navbarPage(
 server <- function(input, output) {
   output$map <- renderLeaflet(
     return(services_map(input$service, input$months, input$year))
+  )
+  output$demo <- renderLeaflet(
+    return(demo_map(input$year))
   )
   output$hood <- renderPlotly(
     return(hood_chart(input$hood_year))

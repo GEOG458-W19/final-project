@@ -17,6 +17,12 @@ hsptl_label <- paste(
   sep = "<br/>"
 )
 
+sfd_label <- paste(
+  fire_stat_df$STNID,
+  fire_stat_df$ADDRESS,
+  sep = "<br/>"
+)
+
 services_map <- function(services, months, year) {
   # Determines which year of data set to display
   yr_df <- ""
@@ -26,6 +32,7 @@ services_map <- function(services, months, year) {
     yr_df <- seattle_17 %>% filter(Month >= months[1], Month <= months[2])
   }
   
+  # Popup label for the call locations
   yr_label <- paste(
     paste0("Date: ", yr_df$Month, "/", yr_df$Year),
     paste("Address:", yr_df$Address),
@@ -35,7 +42,7 @@ services_map <- function(services, months, year) {
 
   # Creates base map with 911 calls
   p <- leaflet(fire_stat_df) %>% 
-    addTiles() %>% 
+    addProviderTiles(providers$CartoDB.Positron) %>% 
     setView(lng = -122.32945, lat = 47.60357, zoom = 12) %>% 
     addCircleMarkers(
       lat = ~yr_df$Latitude,
@@ -47,7 +54,7 @@ services_map <- function(services, months, year) {
     ) %>% 
     addLegend("bottomright", 
               colors = list("black", "red", "blue"), 
-              labels = list("Call Locations", "Fire Stations", "Hospitals"),
+              labels = list("Call Locations", "Seattle Fire Dept. (SFD)", "Hospitals"),
               title = "Emergency Calls and Services",
               opacity = 1
     )
@@ -68,7 +75,8 @@ services_map <- function(services, months, year) {
                     lat = ~fire_stat_df$lat,
                     lng = ~fire_stat_df$lng,
                     color = "red",
-                    fillOpacity = 1
+                    fillOpacity = 1,
+                    popup = ~sfd_label
                   )
   }
   

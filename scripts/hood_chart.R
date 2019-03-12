@@ -3,6 +3,18 @@ library(dplyr)
 seattle_18 <- st_read("./data/2018_Fire_Calls_Seattle/2018_Fire_Calls_Seattle.shp")
 seattle_17 <- st_read("./data/2017_Fire_Calls_Seattle/2017_Fire_Calls_Seattle.shp")
 
+h17 <- seattle_17 %>% group_by(S_HOOD) %>% summarise(c17 = n())
+h18 <- seattle_18 %>% group_by(S_HOOD) %>% summarise(c18 = n())
+hood_names <- h17$S_HOOD
+h17_count <- h17$c17
+h18_count <- h18$c18
+hood <- data.frame(hood_names, h17_count, h18_count) %>% 
+        mutate(increase_count = h18_count - h17_count) %>% 
+        mutate(total_count = h18_count + h17_count) %>% 
+        mutate(increase_perc = increase_count / total_count)
+
+count <- c()
+
 hood_chart <- function(year) {
   p <- ggplot() +
         theme(axis.text.x = element_text(angle = 45, hjust = 1),
