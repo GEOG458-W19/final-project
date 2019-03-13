@@ -44,7 +44,7 @@ ui <- navbarPage(
         h5("Group 5: Justin Han, Wendy Liang, Rachel Paresa, Alec Raines, Denny Wang")
       ),
       mainPanel(
-        p("For our final project, we are analyzing the relationship between the type and quantity of 911 calls within neighborhoods in Seattle 
+        p("For our final project, we are analyzing the relationship between the type and quantity of acted upon 911 calls within neighborhoods in Seattle 
           and its demographics. Our research question being, Is there a correlation between the type of 911 calls and demographics in an area? 
           The topic at hand is very relevant as we can use this data to predict hot spots of different types of incidences. For example, 
           if we are able to locate areas that have observed more 911 calls which require advice life care services and medical attention, 
@@ -56,7 +56,7 @@ ui <- navbarPage(
           a large city with varying urban and suburban elements. With the large amount and diversity of jobs in Seattle, it is reasonable to 
           consider Seattle is diverse in its demographics. Thus we were curious to analyze the various 911 call types and its relationship to 
           the demographics of various neighborhoods in Seattle."),
-        p("Another reason we are focusing on the type of 911 calls and demographics is because there is a vast amount of existing literature 
+        p("Another reason we are focusing on the type of 911 calls acted upon and demographics is because there is a vast amount of existing literature 
           on crime, the police, and neighborhood demographics. Various studies showed that “[n]eighborhoods with high crime rates were [] more 
           likely to be subjects of coercive police response[s]” (Sun). But an “under-researched factor [was] neighborhood age composition” (Sun). 
           Thus for our final project we will also be considering age as a demographic."),
@@ -74,10 +74,9 @@ ui <- navbarPage(
           Aid units are ambulances staffed with Firefighter/EMTs."),
         p(strong("Medic responses:"), "medical response requiring Paramedics who are Advanced Life Support (ALS) qualified. 
           Medic units are ambulances staffed with Firefighter/Paramedics."),
-        p("The demographic data comes from the Census, more specifically the American Community Survey 5-Year Data. 
-          Some of the issues associated with Census Data include race categorization, microdata and statistical confidentiality, 
-          as well as interpolated values. Another issue we ran into was that we were hoping to compare 2018 to 2017, in terms 
-          of the population demographics, but the data had not been released yet we focused on 2017. "),
+        p("Thus in this project, we are hoping to delve deeper into the type and quantity of acted upon 911 calls 
+        and analyze if there is a correlation to neighborhood demographics. "),
+        p("T"),
         h3("Citations", align = "center"),
         p("The Canadian Press. \"Alberta Mounties Wasting Time, Resources on Hundreds of False 911 Calls.\"", em("The Canadian Press"), "(Toronto), 2009."),
         p("Sasson, Comilla, Jason S. Haukoos, Leila Ben-Youssef, Lorenzo Ramirez, Sheana Bull, Brian Eigel, David J. Magid, and Ricardo Padilla.
