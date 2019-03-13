@@ -41,5 +41,3 @@ distance_boxplot <- function(services, year, months) {
   
   return(g)
 }
-
-

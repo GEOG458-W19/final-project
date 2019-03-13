@@ -4,7 +4,7 @@ library(dplyr)
 seattle_18 <- st_read("./data/2018_Fire_Calls_Seattle/2018_Fire_Calls_Seattle.shp", stringsAsFactors = F)
 seattle_17 <- st_read("./data/2017_Fire_Calls_Seattle/2017_Fire_Calls_Seattle.shp", stringsAsFactors = F)
 
-# Add on extra columns of increases and percentage increases for call locations
+# Add on extra columns of increases and percentage increases for call locations to display stats
 h17 <- seattle_17 %>% group_by(S_HOOD) %>% summarise(c17 = n())
 h18 <- seattle_18 %>% group_by(S_HOOD) %>% summarise(c18 = n())
 hood_names <- h17$S_HOOD
@@ -15,6 +15,7 @@ hood <- data.frame(hood_names, h17_count, h18_count) %>%
         mutate(total_count = h18_count + h17_count) %>% 
         mutate(increase_perc = increase_count / total_count)
 
+# Returns a bar chart of the number of calls, grouped by neighborhoods
 hood_chart <- function(year, neighborhood) {
   # Aggregate information for chosen neighborhood
   hood_df <- hood %>% filter(hood_names == neighborhood)
@@ -24,8 +25,8 @@ hood_chart <- function(year, neighborhood) {
   
   # Creates initial bar chart to overlay dataset on
   p <- ggplot() +
-        # labs(caption = paste0("From 2017 to 2018, ", neighborhood, "'s number of 911 calls went from ", stat$y17, 
-        #                       " to ", stat$y18, " which meant a ", stat$direction, " of ", percentage, ".")) +
+        labs(caption = paste0("From 2017 to 2018, ", neighborhood, "'s number of 911 calls went from ", stat$y17,
+                              " to ", stat$y18, " which meant a ", stat$direction, " of ", percentage, ".")) +
         theme(axis.text.x = element_text(angle = 45, hjust = 1),
               axis.title = element_text(vjust=1),
               legend.position = c(1, 1),
@@ -51,12 +52,17 @@ hood_chart <- function(year, neighborhood) {
   
   # Converts the ggplot chart to a ggplotly chart to make it interactive friendly
   # Many of the layout arguments had to be redone, referenced from here: https://plot.ly/r/reference/#layout
-  p <- ggplotly(p, tooltip = c('x', 'y')) %>% 
+  g <- ggplotly(p, tooltip = c('x', 'y')) %>% 
         layout(title = paste0("911 Call Locations by Neighborhood"),
                margin = list(b = 150, l = 100, t = 50),
-               legend = list(x = .95, y = .95))
+               legend = list(x = .95, y = .95),
+               annotations = list(x = 1, y = 1, showarrow = F, xanchor = "left", yanchor = "bottom",
+                                  text = paste0("From 2017 to 2018, ", neighborhood, 
+                                                "'s number of 911 calls went from ", stat$y17, " to ", 
+                                                stat$y18, " which meant a ", stat$direction, " of ", 
+                                                percentage, ".")))
   
-  return(p)
+  return(g)
 }
 
 # #####################statistical analysis#######################
