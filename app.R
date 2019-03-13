@@ -76,7 +76,8 @@ ui <- navbarPage(
           Medic units are ambulances staffed with Firefighter/Paramedics."),
         p("The demographic data comes from the Census, more specifically the American Community Survey 5-Year Data. 
           Some of the issues associated with Census Data include race categorization, microdata and statistical confidentiality, 
-          as well as interpolated values."),
+          as well as interpolated values. Another issue we ran into was that we were hoping to compare 2018 to 2017, in terms 
+          of the population demographics, but the data had not been released yet we focused on 2017. "),
         h3("Citations", align = "center"),
         p("The Canadian Press. \"Alberta Mounties Wasting Time, Resources on Hundreds of False 911 Calls.\"", em("The Canadian Press"), "(Toronto), 2009."),
         p("Sasson, Comilla, Jason S. Haukoos, Leila Ben-Youssef, Lorenzo Ramirez, Sheana Bull, Brian Eigel, David J. Magid, and Ricardo Padilla.
