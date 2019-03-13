@@ -79,8 +79,14 @@ ui <- navbarPage(
                       Aid units are ambulances staffed with Firefighter/EMTs."),
                    p(strong("Medic responses:"), "medical response requiring Paramedics who are Advanced Life Support (ALS) qualified. 
                       Medic units are ambulances staffed with Firefighter/Paramedics."),
+                   p("The demographic data comes from the Census, more specifically the 2010 census population & housing count, as a shapefile. 
+                      Some of the issues associated with Census Data include race categorization, microdata and statistical confidentiality, 
+                      as well as interpolated values. Another issue we ran into was that we were hoping to compare multiple years of data, 
+                      in terms of the population demographics, but the data had not been collected yet for the 2020 census thus we focused 
+                      on the population demographics for 2010. We had also looked into using the 5 year American Housing Survey population estimates,
+                      but due to insufficient data many records were void or unaccounted for. "),
                    p("Thus in this project, we are hoping to delve deeper into the type and quantity of acted upon 911 calls 
-                      and analyze if there is a correlation to neighborhood demographics. ")
+                     and analyze if there is a correlation to neighborhood demographics. ")
                 ),
         tabPanel("Citations",
                   p(" "),
