@@ -1,4 +1,3 @@
-installed.packages("leaflet")
 library(leaflet)
 library(sp)
 library(rgdal)
@@ -13,7 +12,7 @@ calls_df <-st_read("./final-project-master/data/2018_Fire_Calls_Seattle/2018_Fir
 #selects rows in shapefile for column "Type" that are == to "text"
 aid_response_select <- subset(calls, Type %in% "Natural Gas Odor")
 #counts the number of times each call occurs and selects the top 20
-top_20_call_types <- calls_df %>% group_by(Type) %>% summarize(total_numb_calls=n()) %>% arrange(desc(total_numb_calls)) %>% head(2) 
+top_20_call_types <- calls_df %>% group_by(Type) %>% summarize(total_numb_calls=n()) %>% arrange(desc(total_numb_calls)) %>% head(20) 
 call_top_20_df <- filter(calls_df, Type==unique(top_20_call_types$Type))
 #assigns different colors to different categories according to domain. unique() returns 
 #list of unique values in the calls shp in the type column

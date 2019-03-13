@@ -32,57 +32,67 @@ pie <- pie(count, labels = lbls, main = "Neighborhoods that Increased in 911 Cal
 
 
 hood_chart <- function(year) {
+  # Creates initial bar chart to overlay dataset on
   p <- ggplot() +
         theme(axis.text.x = element_text(angle = 45, hjust = 1),
-              axis.title = element_text(vjust=1))
+              axis.title = element_text(vjust=1),
+              legend.position = c(1, 1),
+              legend.justification = c(1,1),
+              legend.background = element_blank())
   
-  # Determines which year of data set to display
+  # Determines which year of data set to display based upon input and then adds the bars that correspondingly
   if (is.element(18, year)) {
-    seattle_18 <- seattle_18 %>% group_by(S_HOOD) %>% summarise(Count = n())
-    colnames(seattle_18)[1] <- "Neighborhood"
-    p <- p + geom_bar(seattle_18, mapping = aes(x = Neighborhood, y = Count, fill = "2018"), 
-                      stat = "identity", position = "dodge") + guides(fill = guide_legend(title = "Year"))
+    s_18 <- seattle_18 %>% group_by(S_HOOD) %>% summarise(Count = n())
+    colnames(s_18)[1] <- "Neighborhood"
+    p <- p + geom_bar(s_18, mapping = aes(x = Neighborhood, y = Count, fill = "2018"), 
+                      stat = "identity", position = "dodge") + 
+                      guides(fill = guide_legend(title = "Year"))
   }
   
   if (is.element(17, year)){
-    seattle_17 <- seattle_17 %>% group_by(S_HOOD) %>% summarise(Count = n())
-    colnames(seattle_17)[1] <- "Neighborhood"
-    p <- p + geom_bar(seattle_17, mapping = aes(x = Neighborhood, y = Count, fill = "2017"), 
-                      stat = "identity", position = "dodge") + guides(fill = guide_legend(title = "Year"))
+    s_17 <- seattle_17 %>% group_by(S_HOOD) %>% summarise(Count = n())
+    colnames(s_17)[1] <- "Neighborhood"
+    p <- p + geom_bar(s_17, mapping = aes(x = Neighborhood, y = Count, fill = "2017"), 
+                      stat = "identity", position = "dodge") + 
+                      guides(fill = guide_legend(title = "Year"))
   }
-
-  p <- ggplotly(p, tooltip = c('x', 'y')) %>%
+  
+  # Converts the ggplot chart to a ggplotly chart to make it interactive friendly
+  # Many of the layout arguments had to be redone, referenced from here: https://plot.ly/r/reference/#layout
+  p <- ggplotly(p, tooltip = c('x', 'y')) %>% 
         layout(title = paste0("911 Call Locations by Neighborhood"),
-               margin=list(b = 150, l = 100, t = 50))
+               margin = list(b = 150, l = 100, t = 50),
+               legend = list(x = .95, y = .95))
+  
   return(p)
 }
 
 
 
 
-#####################statistical analysis#######################
-pop_data <- read.csv("./Population_Density_2017.csv", stringsAsFactors = FALSE)
-#finds total number of calls in each neighborhood
-neighborhood_calls <-seattle_18 %>% group_by(S_HOOD) %>% summarize(total_numb_calls=n()) %>% arrange(desc(total_numb_calls))
-#calculates average number of calls per neighborhood. 
-average_numb_calls <- nrow(seattle_18)/(length(unique(seattle_18$S_HOOD)))
-#max number of calls per neighborhood
-max_calls_neighborhood <- neighborhood_calls[which.max(neighborhood_calls$total_numb_calls),]
-#min number of calls per neighborhood
-min_calls_neighborhood <-neighborhood_calls[which.min(neighborhood_calls$total_numb_calls),]
-#range
-range_calls_neighborhood <- max_calls_neighborhood$total_numb_calls - min_calls_neighborhood$total_numb_calls
-#median
-median_calls_neighborhood <- median(neighborhood_calls$total_numb_calls)
-#calculates top 10 neighborhoods with the most calls.
-top_10_neighborhoods <- neighborhood_calls %>% head(10) %>% select(S_HOOD, total_numb_calls)
-
-###########correlation between population ##########
-#calculates difference in the number of calls in 2018 to 2017
-diff_numb_calls <- nrow(seattle_18) - nrow(seattle_17)
-#calculates the percent change in the number of calls from 2017 to 2018
-calls_percent_change <- (diff_numb_calls/nrow(seattle_17)) * 100
-#calculates difference in total pop from 2017 to 2016
-pop_change <- sum(pop_data$Estimated.Total.Population.2017)-sum(pop_data$Estimated.Total.Population.2016)
-#calculates percent change in total population from 2016 to 2017
-pop_percent_change <- (pop_change/sum(pop_data$Estimated.Total.Population.2016))*100
+# #####################statistical analysis#######################
+# pop_data <- read.csv("./Population_Density_2017.csv", stringsAsFactors = FALSE)
+# # Finds total number of calls in each neighborhood
+# neighborhood_calls <- seattle_18 %>% group_by(S_HOOD) %>% summarize(total_numb_calls=n()) %>% arrange(desc(total_numb_calls))
+# # Calculates average number of calls per neighborhood. 
+# average_numb_calls <- nrow(seattle_18)/(length(unique(seattle_18$S_HOOD)))
+# # Max number of calls per neighborhood
+# max_calls_neighborhood <- neighborhood_calls[which.max(neighborhood_calls$total_numb_calls),]
+# # Min number of calls per neighborhood
+# min_calls_neighborhood <-neighborhood_calls[which.min(neighborhood_calls$total_numb_calls),]
+# # Range
+# range_calls_neighborhood <- max_calls_neighborhood$total_numb_calls - min_calls_neighborhood$total_numb_calls
+# # Median
+# median_calls_neighborhood <- median(neighborhood_calls$total_numb_calls)
+# # Calculates top 10 neighborhoods with the most calls.
+# top_10_neighborhoods <- neighborhood_calls %>% head(10) %>% select(S_HOOD, total_numb_calls)
+# 
+# ###########correlation between population ##########
+# # Calculates difference in the number of calls in 2018 to 2017
+# diff_numb_calls <- nrow(seattle_18) - nrow(seattle_17)
+# # Calculates the percent change in the number of calls from 2017 to 2018
+# calls_percent_change <- (diff_numb_calls/nrow(seattle_17)) * 100
+# # Calculates difference in total pop from 2017 to 2016
+# pop_change <- sum(pop_data$Estimated.Total.Population.2017)-sum(pop_data$Estimated.Total.Population.2016)
+# # Calculates percent change in total population from 2016 to 2017
+# pop_percent_change <- (pop_change/sum(pop_data$Estimated.Total.Population.2016)) * 100

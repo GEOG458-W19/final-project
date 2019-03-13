@@ -23,9 +23,10 @@ types <- read.csv("./data/types-done.csv", stringsAsFactors = FALSE)
 # hospital_df <- read.csv("./data/Hospitals.csv", stringsAsFactors = FALSE)
 # colnames(hospital_df)[1] <- "lng"
 # colnames(hospital_df)[2] <- "lat"
-# seattle_18 <- st_read("./data/2018_Fire_Calls_Seattle/2018_Fire_Calls_Seattle.shp")
-# seattle_17 <- st_read("./data/2017_Fire_Calls_Seattle/2017_Fire_Calls_Seattle.shp")
-# 
+seattle_18 <- st_read("./data/2018_Fire_Calls_Seattle/2018_Fire_Calls_Seattle.shp", stringsAsFactors = FALSE)
+seattle_17 <- st_read("./data/2017_Fire_Calls_Seattle/2017_Fire_Calls_Seattle.shp", stringsAsFactors = FALSE)
+hoods <- seattle_18 %>% group_by(S_HOOD) %>% summarize(n = n())
+
 # seattle <- st_read("../data/seattlefc/seattlefc.shp")
 # types_response <- seattle %>% group_by(Type) %>% summarize(count = n())
 
@@ -45,46 +46,52 @@ ui <- navbarPage(
         h5("Group 5: Justin Han, Wendy Liang, Rachel Paresa, Alec Raines, Denny Wang")
       ),
       mainPanel(
-        p("For our final project, we are analyzing the relationship between the type and quantity of 911 calls within neighborhoods in Seattle 
-          and its demographics. Our research question being, Is there a correlation between the type of 911 calls and demographics in an area? 
-          The topic at hand is very relevant as we can use this data to predict hot spots of different types of incidences. For example, 
-          if we are able to locate areas that have observed more 911 calls which require advice life care services and medical attention, 
-          the city can address the need and create more ambulance staging areas to improve the efficiency of caring for the residents in 
-          those areas. Another example is if an area has observed higher rates of fire calls, the city can see where they can more strategically 
-          put the fire departments. The importance of the research question is posed to analyze not only the commonly recognized demographics of 
-          race, but also demographics such as household income level."),
-        p("The area we have chosen for analysis is the city of Seattle, the reason being that all of us are familiar with the area and that it is 
-          a large city with varying urban and suburban elements. With the large amount and diversity of jobs in Seattle, it is reasonable to 
-          consider Seattle is diverse in its demographics. Thus we were curious to analyze the various 911 call types and its relationship to 
-          the demographics of various neighborhoods in Seattle."),
-        p("Another reason we are focusing on the type of 911 calls and demographics is because there is a vast amount of existing literature 
-          on crime, the police, and neighborhood demographics. Various studies showed that “[n]eighborhoods with high crime rates were [] more 
-          likely to be subjects of coercive police response[s]” (Sun). But an “under-researched factor [was] neighborhood age composition” (Sun). 
-          Thus for our final project we will also be considering age as a demographic."),
-        p("The existing literature brings to light that certain demographics may be more apt to call 911. A study published by the American College 
-          of Emergency Physicians in 2014, concluded that “[t]he fear of becoming involved because of the distrust of law enforcement, a result of 
-          possible undocumented status or outstanding warrants, was a common barrier that precluded [the studied] high-risk neighborhood residents 
-          from calling 911” (Sasson). This is an important problem in the data that we used, as it may not be a fully accurate representative of the 
-          needs of various communities."),
-        p("Another issue with 911 call data we identified was the potential of having false 911 calls. As “each false call must be tracked down 
-          by police”, our group decided to focus on actually acted on 911 calls and a good majority were by the fire department (The Canadian Press)."),
-        p("The data around the incident locations of fire department related 911 calls, location of fire departments, and location of hospitals 
-          comes from the City of Seattle. The format of the data was a CSV file, which updated in real time, with data such as addresses, response 
-          type of 911 call, and time. The most common response types were aid responses and medic responses."),
-        p(strong("Aid responses:"), "medical response requiring EMTs (any Seattle firefighters) who are Basic Life Support (BLS) qualified. 
-          Aid units are ambulances staffed with Firefighter/EMTs."),
-        p(strong("Medic responses:"), "medical response requiring Paramedics who are Advanced Life Support (ALS) qualified. 
-          Medic units are ambulances staffed with Firefighter/Paramedics."),
-        p("The demographic data comes from the Census, more specifically the American Community Survey 5-Year Data. 
-          Some of the issues associated with Census Data include race categorization, microdata and statistical confidentiality, 
-          as well as interpolated values."),
-        h3("Citations", align = "center"),
-        p("The Canadian Press. \"Alberta Mounties Wasting Time, Resources on Hundreds of False 911 Calls.\"", em("The Canadian Press"), "(Toronto), 2009."),
-        p("Sasson, Comilla, Jason S. Haukoos, Leila Ben-Youssef, Lorenzo Ramirez, Sheana Bull, Brian Eigel, David J. Magid, and Ricardo Padilla.
-          \"Barriers to calling 911 and learning and performing cardiopulmonary resuscitation for residents of primarily Latino, high-risk 
-          neighborhoods in Denver, Colorado.\"", em("Annals of emergency medicine"), "65, no. 5 (2015): 545-552."),
-        p("Sun, Ivan Y., Brian K. Payne, and Yuning Wu. \"The impact of situational factors, officer characteristics, and neighborhood context 
-          on police behavior: A multilevel analysis.\"", em("Journal of criminal justice"), "36, no. 1 (2008): 22-32.")
+        tabsetPanel(
+          tabPanel("Project Desciption", 
+                   p(" "),
+                   p("For our final project, we are analyzing the relationship between the type and quantity of 911 calls within neighborhoods in Seattle 
+                    and its demographics. Our research question being, Is there a correlation between the type of 911 calls and demographics in an area? 
+                    The topic at hand is very relevant as we can use this data to predict hot spots of different types of incidences. For example, 
+                    if we are able to locate areas that have observed more 911 calls which require advice life care services and medical attention, 
+                    the city can address the need and create more ambulance staging areas to improve the efficiency of caring for the residents in 
+                    those areas. Another example is if an area has observed higher rates of fire calls, the city can see where they can more strategically 
+                    put the fire departments. The importance of the research question is posed to analyze not only the commonly recognized demographics of 
+                    race, but also demographics such as household income level."),
+                  p("The area we have chosen for analysis is the city of Seattle, the reason being that all of us are familiar with the area and that it is 
+                    a large city with varying urban and suburban elements. With the large amount and diversity of jobs in Seattle, it is reasonable to 
+                    consider Seattle is diverse in its demographics. Thus we were curious to analyze the various 911 call types and its relationship to 
+                    the demographics of various neighborhoods in Seattle."),
+                  p("Another reason we are focusing on the type of 911 calls and demographics is because there is a vast amount of existing literature 
+                    on crime, the police, and neighborhood demographics. Various studies showed that “[n]eighborhoods with high crime rates were [] more 
+                    likely to be subjects of coercive police response[s]” (Sun). But an “under-researched factor [was] neighborhood age composition” (Sun). 
+                    Thus for our final project we will also be considering age as a demographic."),
+                  p("The existing literature brings to light that certain demographics may be more apt to call 911. A study published by the American College 
+                    of Emergency Physicians in 2014, concluded that “[t]he fear of becoming involved because of the distrust of law enforcement, a result of 
+                    possible undocumented status or outstanding warrants, was a common barrier that precluded [the studied] high-risk neighborhood residents 
+                    from calling 911” (Sasson). This is an important problem in the data that we used, as it may not be a fully accurate representative of the 
+                    needs of various communities."),
+                  p("Another issue with 911 call data we identified was the potential of having false 911 calls. As “each false call must be tracked down 
+                    by police”, our group decided to focus on actually acted on 911 calls and a good majority were by the fire department (The Canadian Press)."),
+                  p("The data around the incident locations of fire department related 911 calls, location of fire departments, and location of hospitals 
+                    comes from the City of Seattle. The format of the data was a CSV file, which updated in real time, with data such as addresses, response 
+                    type of 911 call, and time. The most common response types were aid responses and medic responses."),
+                  p(strong("Aid responses:"), "medical response requiring EMTs (any Seattle firefighters) who are Basic Life Support (BLS) qualified. 
+                    Aid units are ambulances staffed with Firefighter/EMTs."),
+                  p(strong("Medic responses:"), "medical response requiring Paramedics who are Advanced Life Support (ALS) qualified. 
+                    Medic units are ambulances staffed with Firefighter/Paramedics."),
+                  p("The demographic data comes from the Census, more specifically the American Community Survey 5-Year Data. 
+                    Some of the issues associated with Census Data include race categorization, microdata and statistical confidentiality, 
+                    as well as interpolated values.")
+        ),
+        tabPanel("Citations",
+                  p(" "),
+                  p("The Canadian Press. \"Alberta Mounties Wasting Time, Resources on Hundreds of False 911 Calls.\"", em("The Canadian Press"), "(Toronto), 2009."),
+                  p("Sasson, Comilla, Jason S. Haukoos, Leila Ben-Youssef, Lorenzo Ramirez, Sheana Bull, Brian Eigel, David J. Magid, and Ricardo Padilla.
+                    \"Barriers to calling 911 and learning and performing cardiopulmonary resuscitation for residents of primarily Latino, high-risk 
+                    neighborhoods in Denver, Colorado.\"", em("Annals of emergency medicine"), "65, no. 5 (2015): 545-552."),
+                  p("Sun, Ivan Y., Brian K. Payne, and Yuning Wu. \"The impact of situational factors, officer characteristics, and neighborhood context 
+                    on police behavior: A multilevel analysis.\"", em("Journal of criminal justice"), "36, no. 1 (2008): 22-32."))
+        )
       )
     )
   ),
@@ -164,16 +171,21 @@ ui <- navbarPage(
     sidebarLayout(
       # Create a sidebarPanel for your controls
       sidebarPanel(
-        width = 1,
+        width = 2,
         checkboxGroupInput("hood_year",
                            label = "Year of 911 Calls to Display",
                            choices = list("2017" = 17, "2018" = 18),
                            selected = 17
+        ),
+        selectInput("neighborhood",
+                           label = "Neighborhood(s) to Compare Call Increases",
+                           choices = as.list(hoods$S_HOOD),
+                           selected = "University District"
         )
       ),
       # Create a main panel, in which you should display your plotly Scatter plot
       mainPanel(
-        plotlyOutput("hood", width = "130%", height = 750)
+        plotlyOutput("hood", width = "120%", height = 750)
       )
     )
   ),

@@ -6,7 +6,8 @@ seattle_17 <- st_read("./data/2017_Fire_Calls_Seattle/2017_Fire_Calls_Seattle.sh
 type_chart <- function(year) {
   p <- ggplot() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1),
-          axis.title = element_text(vjust=1))
+          axis.title = element_text(vjust=1),
+          legend.position = c(1, 1))
   
   # Determines which year of data set to display
   if (is.element(18, year)) {
@@ -23,7 +24,8 @@ type_chart <- function(year) {
   
   p <- ggplotly(p, tooltip = c('x', 'y')) %>%
     layout(title = paste0("911 Call Locations by Type"),
-           margin=list(b = 150, l = 100, t = 50))
+           margin=list(b = 150, l = 100, t = 50),
+           legend = list(x = 1, y = 1))
   return(p)
 }
 
