@@ -15,14 +15,9 @@ source("./scripts/build_map.R")
 source("./scripts/hood_chart.R")
 source("./scripts/type_chart.R")
 source("./scripts/build_demo.R")
-types <- read.csv("./data/types-done.csv", stringsAsFactors = FALSE)
+source("./scripts/build_boxplot.R")
 
-# fire_stat_df <- read.csv("./data/Fire_Stations.csv", stringsAsFactors = FALSE)
-# colnames(fire_stat_df)[1] <- "lng"
-# colnames(fire_stat_df)[2] <- "lat"
-# hospital_df <- read.csv("./data/Hospitals.csv", stringsAsFactors = FALSE)
-# colnames(hospital_df)[1] <- "lng"
-# colnames(hospital_df)[2] <- "lat"
+types <- read.csv("./data/types-done.csv", stringsAsFactors = FALSE)
 seattle_18 <- st_read("./data/2018_Fire_Calls_Seattle/2018_Fire_Calls_Seattle.shp", stringsAsFactors = FALSE)
 seattle_17 <- st_read("./data/2017_Fire_Calls_Seattle/2017_Fire_Calls_Seattle.shp", stringsAsFactors = FALSE)
 hoods <- seattle_18 %>% group_by(S_HOOD) %>% summarize(n = n())
@@ -119,8 +114,7 @@ ui <- navbarPage(
         ),
         sliderInput("months",
                     label = "Month of 911 Calls to Display",
-                    min = 1,
-                    max = 12,
+                    min = 1, max = 12,
                     value = c(1, 12)
         ),
         radioButtons("year",
@@ -132,7 +126,9 @@ ui <- navbarPage(
       
       # Main panel: display plotly map
       mainPanel(
-        leafletOutput("map", width = "100%", height = 800)
+        leafletOutput("map", width = "100%", height = 700),
+        plotlyOutput("boxplot", width = "100%", height = 300),
+        plotlyOutput("boxplot", height = 300)
       )
     )
   ),
@@ -217,6 +213,9 @@ ui <- navbarPage(
 server <- function(input, output) {
   output$map <- renderLeaflet(
     return(services_map(input$service, input$months, input$year))
+  )
+  output$boxplot <- renderPlotly(
+    return(distance_boxplot(input$service, input$year, input$months))
   )
   output$demo <- renderLeaflet(
     return(demo_map(input$year))
