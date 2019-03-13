@@ -224,7 +224,7 @@ server <- function(input, output) {
     return(distance_boxplot(input$service, input$year, input$months))
   )
   output$demo <- renderLeaflet(
-    return(demo_map(input$year))
+    return(build_demo(input$year))
   )
   output$hood <- renderPlotly(
     return(hood_chart(input$hood_year, input$neighborhood))
