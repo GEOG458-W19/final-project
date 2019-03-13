@@ -1,28 +1,30 @@
 library(dplyr)
 library(leaflet)
 
+# Read in fire station and hospital locations and rename lat/long columns
 fire_stat_df <- read.csv("./data/Fire_Stations.csv", stringsAsFactors = FALSE)
 colnames(fire_stat_df)[1] <- "lng"
 colnames(fire_stat_df)[2] <- "lat"
 hospital_df <- read.csv("./data/Hospitals.csv", stringsAsFactors = FALSE)
 colnames(hospital_df)[1] <- "lng"
 colnames(hospital_df)[2] <- "lat"
-# seattle <- st_read("./data/seattlefc/seattlefc.shp") %>% top_n(1000)
-seattle_18 <- st_read("./data/2018_Fire_Calls_Seattle/2018_Fire_Calls_Seattle.shp")
-seattle_17 <- st_read("./data/2017_Fire_Calls_Seattle/2017_Fire_Calls_Seattle.shp")
+# Read in the shapefiles for each year
+seattle_18 <- st_read("./data/2018_Fire_Calls_Seattle/2018_Fire_Calls_Seattle.shp", stringsAsFactors = F)
+seattle_17 <- st_read("./data/2017_Fire_Calls_Seattle/2017_Fire_Calls_Seattle.shp", stringsAsFactors = F)
 
+# Create the pop up labels for fire station and hospital points
 hsptl_label <- paste(
   hospital_df$FACILITY,
   hospital_df$ADDRESS,
   sep = "<br/>"
 )
-
 sfd_label <- paste(
   fire_stat_df$STNID,
   fire_stat_df$ADDRESS,
   sep = "<br/>"
 )
 
+# Returns a leaflet map that includes 911 call locations and may include hospitals and/or fire station locations
 services_map <- function(services, months, year) {
   # Determines which year of data set to display
   yr_df <- ""
@@ -69,7 +71,6 @@ services_map <- function(services, months, year) {
                     popup = ~hsptl_label
                   )
   }
-  
   if (is.element("fs", services)) {
       p <- p %>% addCircles(
                     lat = ~fire_stat_df$lat,

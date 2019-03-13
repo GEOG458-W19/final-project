@@ -1,8 +1,10 @@
 library(dplyr)
 
-seattle_18 <- st_read("./data/2018_Fire_Calls_Seattle/2018_Fire_Calls_Seattle.shp")
-seattle_17 <- st_read("./data/2017_Fire_Calls_Seattle/2017_Fire_Calls_Seattle.shp")
+# Read in the shapefiles for each year
+seattle_18 <- st_read("./data/2018_Fire_Calls_Seattle/2018_Fire_Calls_Seattle.shp", stringsAsFactors = F)
+seattle_17 <- st_read("./data/2017_Fire_Calls_Seattle/2017_Fire_Calls_Seattle.shp", stringsAsFactors = F)
 
+# Add on extra columns of increases and percentage increases for call locations
 h17 <- seattle_17 %>% group_by(S_HOOD) %>% summarise(c17 = n())
 h18 <- seattle_18 %>% group_by(S_HOOD) %>% summarise(c18 = n())
 hood_names <- h17$S_HOOD
@@ -12,28 +14,18 @@ hood <- data.frame(hood_names, h17_count, h18_count) %>%
         mutate(increase_count = h18_count - h17_count) %>% 
         mutate(total_count = h18_count + h17_count) %>% 
         mutate(increase_perc = increase_count / total_count)
-# i_portion <- hood %>% filter(increase_perc > 0) %>% select(increase_count) %>% sum()
-# d_portion <- hood %>% filter(increase_perc < 0) %>% select(increase_count) %>% sum()
-i_val <- hood %>% filter(increase_perc > 0) %>% nrow()
-i_val <- round(i_val / sum(i_val) * 100, digits = 2)
-d_val <- hood %>% filter(increase_perc > 0) %>% nrow()
-d_val <- round(d_val / sum(d_val) * 100, digits = 2)
-hood <- hood %>% mutate(pie_increase = ifelse(increase_perc > 0, increase_perc * i_val, abs(increase_perc * d_val)))
 
-test <- pie(hood$pie_increase, labels = hood$hood_names)
-
-count <- c((hood %>% filter(increase_perc > 0) %>% nrow()), (hood %>% filter(increase_perc < 0) %>% nrow()))
-increased <- c("Yes", "No")
-pct <- round(count / sum(count) * 100)
-lbls <- paste(increased, pct)
-lbls <- paste0(lbls, "%")
-pie <- pie(count, labels = lbls, main = "Neighborhoods that Increased in 911 Calls from 2017 to 2018")
-
-
-
-hood_chart <- function(year) {
+hood_chart <- function(year, neighborhood) {
+  # Aggregate information for chosen neighborhood
+  hood_df <- hood %>% filter(hood_names == neighborhood)
+  direction <- ifelse(hood_df$increase_count < 0, "decreased", "increased")
+  percentage <- paste0(round(hood_df$increase_perc[1] * 100, digits = 2), "%")
+  stat <- list("y17" = hood_df$h17_count[1], "y18" = hood_df$h18_count[1], "direction" = direction, "percentage" = percentage)  
+  
   # Creates initial bar chart to overlay dataset on
   p <- ggplot() +
+        # labs(caption = paste0("From 2017 to 2018, ", neighborhood, "'s number of 911 calls went from ", stat$y17, 
+        #                       " to ", stat$y18, " which meant a ", stat$direction, " of ", percentage, ".")) +
         theme(axis.text.x = element_text(angle = 45, hjust = 1),
               axis.title = element_text(vjust=1),
               legend.position = c(1, 1),
@@ -67,14 +59,11 @@ hood_chart <- function(year) {
   return(p)
 }
 
-
-
-
 # #####################statistical analysis#######################
-# pop_data <- read.csv("./Population_Density_2017.csv", stringsAsFactors = FALSE)
+# pop_data <- read.csv("./data/Population_Density_2017.csv", stringsAsFactors = FALSE)
 # # Finds total number of calls in each neighborhood
 # neighborhood_calls <- seattle_18 %>% group_by(S_HOOD) %>% summarize(total_numb_calls=n()) %>% arrange(desc(total_numb_calls))
-# # Calculates average number of calls per neighborhood. 
+# # Calculates average number of calls per neighborhood.
 # average_numb_calls <- nrow(seattle_18)/(length(unique(seattle_18$S_HOOD)))
 # # Max number of calls per neighborhood
 # max_calls_neighborhood <- neighborhood_calls[which.max(neighborhood_calls$total_numb_calls),]

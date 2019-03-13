@@ -5,9 +5,9 @@ account: wliang25
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 777884
-bundleId: 1935653
+bundleId: 1936113
 url: https://wliang25.shinyapps.io/final-project/
-when: 1552459978.5712
+when: 1552477027.86725
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: FinalProject_Part1.ipynb|leafletmap.R

@@ -4,14 +4,14 @@ library(sp)
 library(rgdal)
 library(sf)
 
-#reads csv file
-pop_data <- read.csv("./Population_Density_2017.csv", stringsAsFactors = FALSE)
-#reads shapefile
-census_tract_data <- st_read("./censustract/2010_US_Census_Tracts.shp")
-calls <- readOGR("./final-project-master/data/2018_Fire_Calls_Seattle/2018_Fire_Calls_Seattle.shp",
+# Reads csv file
+pop_data <- read.csv("./data/Population_Density_2017.csv", stringsAsFactors = FALSE)
+# Reads shapefile
+census_tract_data <- st_read("./data/censustract/2010_US_Census_Tracts.shp")
+calls <- readOGR("./data/2018_Fire_Calls_Seattle/2018_Fire_Calls_Seattle.shp",
                  layer = "2018_Fire_Calls_Seattle", GDAL1_integer64_policy = TRUE)
-calls_df <-st_read("./final-project-master/data/2018_Fire_Calls_Seattle/2018_Fire_Calls_Seattle.shp")
-pop<-st_read("./pop/population.shp")
+calls_df <- st_read("./data/2018_Fire_Calls_Seattle/2018_Fire_Calls_Seattle.shp")
+pop <- st_read("./data/population_data_shp/population_data/population.shp")
 
 #counts the number of times each call occurs and selects the top 10. add desc() to arrange to go form most calls to lowest
 pop_grouped <- pop %>% group_by(TRACTCE10) %>% summarize(pop=sum(POP10)) %>% arrange(pop)
@@ -27,6 +27,7 @@ palette_pop <- colorNumeric("Blues", pop_grouped$pop)
 seattle_18 <- st_read("./data/2018_Fire_Calls_Seattle/2018_Fire_Calls_Seattle.shp")
 seattle_17 <- st_read("./data/2017_Fire_Calls_Seattle/2017_Fire_Calls_Seattle.shp")
 
+# Returns a leaflet of the demographics and location calls based upon the year given
 demo_map <- function(year) {
   # Determines which year of data set to display
   yr_df <- ""
@@ -62,7 +63,7 @@ demo_map <- function(year) {
               title = "Emergency Calls and Demographics",
               opacity = 1
     )
-  #creates map
+  # creates map
   map <- leaflet(data = call_top_10_df) %>% 
     addTiles() %>% 
     setView(lng = -122.32945, lat = 47.60357, zoom = 12) %>%

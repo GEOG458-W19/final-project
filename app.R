@@ -2,6 +2,7 @@
 # GEOG458
 # Final Project: Seattle's 911 Calls
 
+# Load necessary libraries
 library(shiny)
 library(dplyr)
 library(ggplot2)
@@ -11,19 +12,18 @@ library(shinythemes)
 library(sf)
 library(DT)
 
+# Source necessary file scripts
 source("./scripts/build_map.R")
 source("./scripts/hood_chart.R")
 source("./scripts/type_chart.R")
 source("./scripts/build_demo.R")
 source("./scripts/build_boxplot.R")
 
+# Read in initial data files for the ui/server to run appropriately
 types <- read.csv("./data/types-done.csv", stringsAsFactors = FALSE)
 seattle_18 <- st_read("./data/2018_Fire_Calls_Seattle/2018_Fire_Calls_Seattle.shp", stringsAsFactors = FALSE)
 seattle_17 <- st_read("./data/2017_Fire_Calls_Seattle/2017_Fire_Calls_Seattle.shp", stringsAsFactors = FALSE)
 hoods <- seattle_18 %>% group_by(S_HOOD) %>% summarize(n = n())
-
-# seattle <- st_read("../data/seattlefc/seattlefc.shp")
-# types_response <- seattle %>% group_by(Type) %>% summarize(count = n())
 
 ui <- navbarPage(
   theme = shinytheme("yeti"),
@@ -149,7 +149,7 @@ ui <- navbarPage(
                      selected = 17
         )
       ),
-      
+
       # Main panel: display plotly map
       mainPanel(
         leafletOutput("demo", width = "100%", height = 800)
@@ -173,7 +173,7 @@ ui <- navbarPage(
                            selected = 17
         ),
         selectInput("neighborhood",
-                           label = "Neighborhood(s) to Compare Call Increases",
+                           label = "Neighborhood to Compare Call Increases",
                            choices = as.list(hoods$S_HOOD),
                            selected = "University District"
         )
@@ -221,7 +221,7 @@ server <- function(input, output) {
     return(demo_map(input$year))
   )
   output$hood <- renderPlotly(
-    return(hood_chart(input$hood_year))
+    return(hood_chart(input$hood_year, input$neighborhood))
   )
   output$type <- renderPlotly(
     return(type_chart(input$type_year))

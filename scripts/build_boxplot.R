@@ -1,8 +1,10 @@
 library(sf)
 
+# Reads in the python manipulated and combined shapefiles for the extra column of nearest emergency service mapped to the call
 fc2017 <- st_read("./data/FC2017_FS_HOS/FC2017_FS_HOS.shp", stringsAsFactors = FALSE)
 fc2018 <- st_read("./data/FC2018_FS_HOS/FC2018_FS_HOS.shp", stringsAsFactors = FALSE)
 
+# Returns a boxplot of each call location's nearest hospital and/or fire station
 distance_boxplot <- function(services, year, months) {
   # Determines which year of data set to display
   yr_df <- ""
@@ -23,7 +25,6 @@ distance_boxplot <- function(services, year, months) {
     if (is.element("h", services)) {
       df <- df %>% filter(Emergency_Service == "Hospital")
     }
-    
     if (is.element("fs", services)) {
       df <- df %>% filter(Emergency_Service == "Fire Station")
     }
@@ -32,6 +33,7 @@ distance_boxplot <- function(services, year, months) {
     return()
   }
   
+  # Create a boxplot of the filtered data set
   g <- ggplot(df, aes(Emergency_Service, Distance)) + geom_boxplot(varwidth = T, fill = "black") + coord_flip()
   g <- g %>% ggplotly() %>% layout(title = paste0("Distance from Calls to Nearest Emergency Service"), 
                                    margin = list(b = 150, l = 100, t = 50),
