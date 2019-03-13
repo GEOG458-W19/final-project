@@ -215,7 +215,7 @@ ui <- navbarPage(
   )
 )
 
-# Define server logic required to draw a histogram
+# Define server logic required to have user interaction and dynamic charts
 server <- function(input, output) {
   output$map <- renderLeaflet(
     return(services_map(input$service, input$months, input$year))
