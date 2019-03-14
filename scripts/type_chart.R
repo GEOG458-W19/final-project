@@ -33,6 +33,7 @@ type_chart <- function(year) {
   return(p)
 }
 
+# We did some further statistical analysis, but was unable to incorporate/pass it back to the ui
 # ##################statistical analysis#####################
 # #total number of calls for each type
 # type_calls <-seattle_18 %>% group_by(Type) %>% summarize(total_numb_calls=n()) %>% arrange(desc(total_numb_calls))

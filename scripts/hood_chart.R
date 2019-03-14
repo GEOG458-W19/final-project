@@ -19,7 +19,7 @@ hood <- data.frame(hood_names, h17_count, h18_count) %>%
 hood_chart <- function(year, neighborhood) {
   # Aggregate information for chosen neighborhood
   hood_df <- hood %>% filter(hood_names == neighborhood)
-  direction <- ifelse(hood_df$increase_count < 0, "decreased", "increased")
+  direction <- ifelse(hood_df$increase_count < 0, "decrease", "increase")
   percentage <- paste0(round(hood_df$increase_perc[1] * 100, digits = 2), "%")
   stat <- list("y17" = hood_df$h17_count[1], "y18" = hood_df$h18_count[1], "direction" = direction, "percentage" = percentage)  
   
@@ -65,6 +65,7 @@ hood_chart <- function(year, neighborhood) {
   return(g)
 }
 
+# We did some further statistical analysis, but was unable to incorporate/pass it back to the ui
 # #####################statistical analysis#######################
 # pop_data <- read.csv("./data/Population_Density_2017.csv", stringsAsFactors = FALSE)
 # # Finds total number of calls in each neighborhood

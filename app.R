@@ -22,7 +22,6 @@ source("./scripts/type_chart.R")
 # Read in initial data files for the ui/server to run appropriately
 types <- read.csv("./data/types-done.csv", stringsAsFactors = FALSE)
 seattle_18 <- st_read("./data/2018_Fire_Calls_Seattle/2018_Fire_Calls_Seattle.shp", stringsAsFactors = FALSE)
-seattle_17 <- st_read("./data/2017_Fire_Calls_Seattle/2017_Fire_Calls_Seattle.shp", stringsAsFactors = FALSE)
 hoods <- seattle_18 %>% group_by(S_HOOD) %>% summarize(n = n())
 
 ui <- navbarPage(
@@ -42,13 +41,13 @@ ui <- navbarPage(
       ),
       mainPanel(
         tabsetPanel(
-          tabPanel("Project Desciption", 
+          tabPanel("Project Description", 
                    p(" "),
                    p("For our final project, we are analyzing the relationship between the type and quantity of acted upon 911 calls within neighborhoods in Seattle and its demographics in terms of population density. Our research question being, Is there a correlation between the type of 911 calls and population density in an area? The topic at hand is very relevant as we can use this data to predict hot spots of different types of incidences. For example, if we are able to locate areas that have observed more 911 calls which require advice life care services and medical attention, the city can address the need and create more ambulance staging areas to improve the efficiency of caring for the residents in those areas. Another example is if an area has observed higher rates of fire calls, the city can see where they can more strategically put the fire departments. The importance of the research question is posed to analyze demographics such as population density."),
                    p("The area we have chosen for analysis is the city of Seattle, the reason being that all of us are familiar with the area and that it is a large city with varying urban and suburban elements. With the large amount and diversity of jobs in Seattle, it is reasonable to consider Seattle is diverse in its demographics. Thus we were curious to analyze the various 911 call types and its relationship to the population density of various neighborhoods in Seattle."),
-                   p("Another reason we are focusing on the type of 911 calls and demographics is because there is a vast amount of existing literature on crime, the police, and neighborhood demographics. Various studies showed that "[n]eighborhoods with high crime rates were [] more likely to be subjects of coercive police response[s]" (Sun). Our project will be focusing on population density within the census blocks, but a problem with this data is that such neighborhoods observe higher foot traffic and not necessarily more residents."),
-                   p("The existing literature brings to light that certain demographics may be more apt to call 911. A study published by the American College of Emergency Physicians in 2014, concluded that "[t]he fear of becoming involved because of the distrust of law enforcement, a result of possible undocumented status or outstanding warrants, was a common barrier that precluded [the studied] high-risk neighborhood residents from calling 911" (Sasson). This is an important problem in the data that we used, as it may not be a fully accurate representative of the needs of various communities."),
-                   p("Another issue with 911 call data we identified was the potential of having false 911 calls. As "each false call must be tracked down by police", our group decided to focus on actually acted on 911 calls and a good majority were by the fire department (The Canadian Press)."),
+                   p("Another reason we are focusing on the type of 911 calls and demographics is because there is a vast amount of existing literature on crime, the police, and neighborhood demographics. Various studies showed that '[n]eighborhoods with high crime rates were more likely to be subjects of coercive police response[s]' (Sun). Our project will be focusing on population density within the census blocks, but a problem with this data is that such neighborhoods observe higher foot traffic and not necessarily more residents."),
+                   p("The existing literature brings to light that certain demographics may be more apt to call 911. A study published by the American College of Emergency Physicians in 2014, concluded that '[t]he fear of becoming involved because of the distrust of law enforcement, a result of possible undocumented status or outstanding warrants, was a common barrier that precluded [the studied] high-risk neighborhood residents from calling 911' (Sasson). This is an important problem in the data that we used, as it may not be a fully accurate representative of the needs of various communities."),
+                   p("Another issue with 911 call data we identified was the potential of having false 911 calls. As each 'false call must be tracked down by police', our group decided to focus on actually acted on 911 calls and a good majority were by the fire department (The Canadian Press)."),
                    p("The data around the incident locations of fire department related 911 calls, location of fire departments, and location of hospitals comes from the City of Seattle. The format of the data was a CSV file, which updated in real time, with data such as addresses, response type of 911 call, and time. The most common response types were aid responses and medic responses."),
                    p(strong("Aid responses:"), "medical response requiring EMTs (any Seattle firefighters) who are Basic Life Support (BLS) qualified. 
                       Aid units are ambulances staffed with Firefighter/EMTs."),
@@ -103,12 +102,8 @@ ui <- navbarPage(
                      choices = list("2017" = 17, "2018" = 18),
                      selected = 17
         ),
-        p("Overview: 
-This map is intended to depict the relationship between the 911 call response locations and the distance to local hospitals and fire stations. Being able to quantify the distance to the nearest hospital or fire station from various call locations will help us see the availability of assistance. For future references, emergency services can compare the average call distances and determine if there needs to be improvement in quantity and location of future emergency services as well as using it as a source to reflect on response times given the average call distances.
-          "),
-        p("Analysis:
-From this analysis of the distances, we have observed a shorter distance from call locations to the nearest fire station compared to hospitals. One possible explanation might be due to the larger quantity of fire stations than hospitals. Another observation was that 90% of neighborhoods had an increase of 911 calls from 2017 to 2018. The remaining 10% had a decrease. 
-          ")
+        p(strong("Overview:"), "This map is intended to depict the relationship between the 911 call response locations and the distance to local hospitals and fire stations. Being able to quantify the distance to the nearest hospital or fire station from various call locations will help us see the availability of assistance. For future references, emergency services can compare the average call distances and determine if there needs to be improvement in quantity and location of future emergency services as well as using it as a source to reflect on response times given the average call distances."),
+        p(strong("Analysis:"), "From this analysis of the distances, we have observed a shorter distance from call locations to the nearest fire station compared to hospitals. One possible explanation might be due to the larger quantity of fire stations than hospitals. Another observation was that 90% of neighborhoods had an increase of 911 calls from 2017 to 2018. The remaining 10% had a decrease.")
       ),
       
       # Main panel: display leaflet map
@@ -134,11 +129,9 @@ From this analysis of the distances, we have observed a shorter distance from ca
                      choices = list("2017" = 17, "2018" = 18),
                      selected = 17
         ),
-        p("Overview: 
-This map describes the relationship of previous analyses but with population density accounted for. The importance of this map is to show the relationship between population density and the number of 911 call locations. 
+        p(strong("Overview:"), "This map describes the relationship of previous analyses but with population density accounted for. The importance of this map is to show the relationship between population density and the number of 911 call locations. 
 "),
-        p('Analysis: 
-This map plots out the calls for "Medic Response", "Trans to AMR", and "Auto Fire Alarm" call types as different colored points. The population density is also mapped based on different census tracts using data from the 2010 census. The calls seems to clustered around higher population density areas like in the downtown area and university district whereas in areas with lower population density like in the industrial district, there are a lot less emergency calls. But there are areas with higher population density but lower number of calls to areas with lower population densities so it is not a very clear correlation. As for the specific call types, there seems to be a lot more fire alarm calls in the downtown area and university district due to higher density of buildings/population. There seems to be no connection between medic response/trans to AMF and population density since the calls seem to be scattered throughout Seattle.
+        p(strong("Analysis:"), 'This map plots out the calls for "Medic Response", "Trans to AMR", and "Auto Fire Alarm" call types as different colored points. The population density is also mapped based on different census tracts using data from the 2010 census. The calls seems to clustered around higher population density areas like in the downtown area and university district whereas in areas with lower population density like in the industrial district, there are a lot less emergency calls. But there are areas with higher population density but lower number of calls to areas with lower population densities so it is not a very clear correlation. As for the specific call types, there seems to be a lot more fire alarm calls in the downtown area and university district due to higher density of buildings/population. There seems to be no connection between medic response/trans to AMF and population density since the calls seem to be scattered throughout Seattle.
           ')
       ),
 
@@ -169,8 +162,8 @@ This map plots out the calls for "Medic Response", "Trans to AMR", and "Auto Fir
                            choices = as.list(hoods$S_HOOD),
                            selected = "University District"
         ),
-        p("The most common 911 response types were aid response, medic response, and transfer to American Medical Response. This bar graph brings to light that most of the common acted upon 911 calls are health related calls, calls that need to be addressed as soon as possible. ")
-      ),
+        p("The most common 911 response types were aid response, medic response, and transfer to American Medical Response. This bar graph brings to light that most of the common acted upon 911 calls are health related calls, calls that need to be addressed as soon as possible.")
+        ),
       # Create a main panel, in which you should display your plotly Scatter plot
       mainPanel(
         plotlyOutput("hood", width = "120%", height = 750)
@@ -187,14 +180,14 @@ This map plots out the calls for "Medic Response", "Trans to AMR", and "Auto Fir
     sidebarLayout(
       # Create a sidebarPanel for your controls
       sidebarPanel(
-        width = 1,
+        width = 2,
         checkboxGroupInput("type_year",
                            label = "Year of 911 Calls to Display",
                            choices = list("2017" = 17, "2018" = 18),
                            selected = 17
         ),
-        p("We identified the neighborhoods with the most 911 call response locations being: Belltown, Pioneer Square, and Central Business District. The importance of this graph is to highlight the neighborhoods that have observed higher rates of 911 calls and thus arguably have a higher need. ")
-      ),
+        p("We identified the neighborhoods with the most 911 call response locations being: Belltown, Pioneer Square, and Central Business District. The importance of this graph is to highlight the neighborhoods that have observed higher rates of 911 calls and thus arguably have a higher need.")
+        ),
       # Create a main panel, in which you should display your plotly Scatter plot
       mainPanel(
         plotlyOutput("type", width = "130%", height = 750)
@@ -204,15 +197,17 @@ This map plots out the calls for "Medic Response", "Trans to AMR", and "Auto Fir
   tabPanel(
     "Conclusion",
     titlePanel("Conclusion and Sources"),
-    p("Conclusion: 
-A common issue that we ran into while conducting this analysis was that we had used 911 calls in correlation to population density. This proved to be difficult, as population density is not necessarily representative of total foot traffic in an area. Areas that have observed lower rates of population density may not necessarily mean that the overall foot traffic in that area was low. Where locations such as Downtown with low population density may actually have a high rate of foot traffic because of the workforce in that area. Thus we believe further analysis will need to be done with 911 calls in relation to foot traffic data. 
-        "),
-    p("Location of hospitals/police stations/fire stations"),
-    p("Hospital https://data.seattle.gov/Public-Safety/Hospitals/b39b-ku23"),
-    p("Fire Station https://data.seattle.gov/Land-Base/Fire-Stations/mmqu-77bv"),
-    p("Police Stations https://data.seattle.gov/Public-Safety/Police-Stations/grvu-i7fa"),
+    p(strong("Conclusion:")), 
+    p("We began this final project to do analysis and comaprisons from 911 Call Locations to two other variables: Demographics and Emergency Service locations such as hospitals and fire stations. Soon we encountered a problem in that it was difficult to find updated population data nonetheless demographics data for the recent years of 2017 and 2018. Although the inital dataset incorporated the years 2011 to 2019, R had difficultly loading datasets in the hundreds of thousands - hence we needed to narrow our scope to the recent 2 years instead."), 
+    p("On the upside, we were able to create an interactive map using leaflet to correctly map all the observations for the call locations based upon the user selected year. And from there, we were able to accurately map out the Seattle Fire Departments as well as Hospitals. Using python, we ran formulas to obtain the nearest distance of each emergency service and map it to each respective call location observation. Being so, a boxplot was created underneath the map to show the distribution of distances that calls had from each emergency service. From our foundings, the average distance of calls were almost always closer to fire stations than hospitals. One explanation for that though might that there are more fire stations in the Seattle area than hospitals. For future analysis and research, this might also mean it's time for Seattle to build more hospitals, within closer distance of neighborhoods with high call counts such as Belltown and Pioneer Square."),
+    p("One issue that we ran into while conducting this analysis was that we attemped to use 911 calls to determine correlation with population density from the census tract of 2010. This proved to be difficult, as population density is not necessarily representative of total foot traffic in an area. Areas that have observed lower rates of population density may not necessarily mean that the overall foot traffic in that area was low. Where locations such as Downtown with low population density may actually have a high rate of foot traffic because of the workforce in that area. Thus, we believe further analysis will need to be done with 911 calls in relation to foot traffic data in order to get a better understanding of potential phenomenon"),
+    p(strong("Sources:")),
+    p("Location of hospitals/police stations/fire stations:"),
+    p("Hospital: https://data.seattle.gov/Public-Safety/Hospitals/b39b-ku23"),
+    p("Fire Station: https://data.seattle.gov/Land-Base/Fire-Stations/mmqu-77bv"),
+    p("Police Stations: https://data.seattle.gov/Public-Safety/Police-Stations/grvu-i7fa"),
     p("Call data https://data.seattle.gov/Public-Safety/Seattle-Real-Time-Fire-911-Calls/kzjm-xkqj"),
-    p("Demographics https://www.census.gov/geo/maps-data/data/tiger-data.html")
+    p("Population/Demographics: https://www.census.gov/geo/maps-data/data/tiger-data.html")
   )
 )
 
@@ -239,7 +234,7 @@ server <- function(input, output) {
       autoWidth = TRUE,
       columnDefs = list(list(width = '100px')),
       lengthMenu = c(10, 25, 50, 100, 116)
-      )
+    )
   )
 }
 
