@@ -51,8 +51,7 @@ ui <- navbarPage(
                    p("The data around the incident locations of fire department related 911 calls, location of fire departments, and location of hospitals comes from the City of Seattle. The format of the data was a CSV file, which updated in real time, with data such as addresses, response type of 911 call, and time. The most common response types were aid responses and medic responses."),
                    p(strong("Aid responses:"), "medical response requiring EMTs (any Seattle firefighters) who are Basic Life Support (BLS) qualified. 
                       Aid units are ambulances staffed with Firefighter/EMTs."),
-                   p(strong("Medic responses:"), "medical response requiring Paramedics who are Advanced Life Support (ALS) qualified. 
-                      Medic units are ambulances staffed with Firefighter/Paramedics."),
+                   p(strong("Medic responses:"), "medical response requiring Paramedics who are Advanced Life Support (ALS) qualified. Medic units are ambulances staffed with Firefighter/Paramedics."),
                    p("The demographic data comes from the Census, more specifically the 2010 census population & housing count, as a shapefile. Some of the issues associated with Census Data include race categorization, microdata and statistical confidentiality, as well as interpolated values. Another issue we ran into was that we were hoping to compare multiple years of data, in terms of the population density, but the data had not been collected yet for the 2020 census thus we focused on the population demographics for 2010. We had also looked into using the 5 year American Housing Survey population estimates, but due to insufficient data many records were void or unaccounted for."),
                    p("Thus in this project, we are hoping to delve deeper into the type and quantity of acted upon 911 calls and analyze if there is a correlation to neighborhood demographics. 
 ")
@@ -60,11 +59,9 @@ ui <- navbarPage(
         tabPanel("Citations",
                   p(" "),
                   p("The Canadian Press. \"Alberta Mounties Wasting Time, Resources on Hundreds of False 911 Calls.\"", em("The Canadian Press"), "(Toronto), 2009."),
-                  p("Sasson, Comilla, Jason S. Haukoos, Leila Ben-Youssef, Lorenzo Ramirez, Sheana Bull, Brian Eigel, David J. Magid, and Ricardo Padilla.
-                    \"Barriers to calling 911 and learning and performing cardiopulmonary resuscitation for residents of primarily Latino, high-risk 
+                  p("Sasson, Comilla, Jason S. Haukoos, Leila Ben-Youssef, Lorenzo Ramirez, Sheana Bull, Brian Eigel, David J. Magid, and Ricardo Padilla.\"Barriers to calling 911 and learning and performing cardiopulmonary resuscitation for residents of primarily Latino, high-risk 
                     neighborhoods in Denver, Colorado.\"", em("Annals of emergency medicine"), "65, no. 5 (2015): 545-552."),
-                  p("Sun, Ivan Y., Brian K. Payne, and Yuning Wu. \"The impact of situational factors, officer characteristics, and neighborhood context 
-                    on police behavior: A multilevel analysis.\"", em("Journal of criminal justice"), "36, no. 1 (2008): 22-32."))
+                  p("Sun, Ivan Y., Brian K. Payne, and Yuning Wu. \"The impact of situational factors, officer characteristics, and neighborhood context on police behavior: A multilevel analysis.\"", em("Journal of criminal justice"), "36, no. 1 (2008): 22-32."))
         )
       )
     )
@@ -103,7 +100,8 @@ ui <- navbarPage(
                      selected = 17
         ),
         p(strong("Overview:"), "This map is intended to depict the relationship between the 911 call response locations and the distance to local hospitals and fire stations. Being able to quantify the distance to the nearest hospital or fire station from various call locations will help us see the availability of assistance. For future references, emergency services can compare the average call distances and determine if there needs to be improvement in quantity and location of future emergency services as well as using it as a source to reflect on response times given the average call distances."),
-        p(strong("Analysis:"), "From this analysis of the distances, we have observed a shorter distance from call locations to the nearest fire station compared to hospitals. One possible explanation might be due to the larger quantity of fire stations than hospitals. Another observation was that 90% of neighborhoods had an increase of 911 calls from 2017 to 2018. The remaining 10% had a decrease.")
+        p(strong("Analysis:"), "From this analysis of the distances, we have observed a shorter distance from call locations to the nearest fire station compared to hospitals. One possible explanation might be due to the larger quantity of fire stations than hospitals. Another observation was that 90% of neighborhoods had an increase of 911 calls from 2017 to 2018. The remaining 10% had a decrease."),
+        p(strong("Data:"), "To further understand the potential relationship between distances of call locations to the nearest emergency service and to help create a boxplot - we had to apply some distance functions to our current dataset. Using shapely's point function we geocoded calls, hospitals, and the fire stations. From there shapely also has a nearest neighbor function that we used to find the nearest fire station and hospital to each call. Then using the haversine formula found the straight line distance from call to hospital and fire station. The haversine formula uses the spherical law of cosines to compute the distance from one point to another on Earth. However, due to Earth's slightly ellipsoidal shape, there is a 3% error included with these calculations.")
       ),
       
       # Main panel: display leaflet map
